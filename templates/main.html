@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+</head>
+
+<body>
+  {% for page in pages|sort(attribute='fm.created') %}
+  <article>
+    <a href={{ getUrl(page) }}>{{ page.fm.title }}</a>
+    {{ page.content }}
+  </article>
+  {% endfor %}
+</body>
+
+</html>
