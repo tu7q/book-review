@@ -20,9 +20,6 @@ defaults:
 
 jobs:
   build:
-    environment:
-      name: build-env
-      TZ: Pacific/Auckland
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
