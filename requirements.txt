@@ -2,3 +2,4 @@ Jinja2==3.0.3
 markdown-it-py[plugins]==3.0.0
 watchdog==6.0.0
 toml==0.10.2
+PyYAML==6.0.3 
