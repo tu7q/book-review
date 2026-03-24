@@ -18,9 +18,12 @@ from mdit_py_plugins.front_matter import front_matter_plugin
 
 import yaml
 
+baseUrl = "/"
+
 
 def getUrl(page):
-    return "/" + "/".join(page.rel_path.parent.parts)
+    print(baseUrl)
+    return baseUrl + "/".join(page.rel_path.parent.parts)
 
 
 def getEditUrl(repoUrl, page):
@@ -136,6 +139,8 @@ def watch(source_dir: str, install_dir: str):
 
 
 def main():
+    global baseUrl
+
     parser = argparse.ArgumentParser(
         prog="Builder",
         description="Builds the static website.",
@@ -145,16 +150,19 @@ def main():
     # TODO: make this better.
     build_parser = subparsers.add_parser("build")
     build_parser.set_defaults(fn=build)
+    build_parser.add_argument("--baseUrl", default="/")
     build_parser.add_argument("-s", "--source", default="pages")
     build_parser.add_argument("-o", "--output", default="web")
 
     watch_parser = subparsers.add_parser("watch")
     watch_parser.set_defaults(fn=watch)
+    watch_parser.add_argument("--baseUrl", default="/")
     watch_parser.add_argument("-s", "--source", default="pages")
     watch_parser.add_argument("-o", "--output", default="web")
 
     args = parser.parse_args()
 
+    baseUrl = args.baseUrl
     args.fn(args.source, args.output)
 
 
