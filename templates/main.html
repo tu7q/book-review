@@ -12,9 +12,9 @@
   <h1>Awesome Stories!</h1>
 </div>
 
-{% for page in pages|sort(attribute='fm.created') %}
+{% for page in pages|sort(attribute='fm.created')|rejectattr('fm.kind', '!=', 'review') %}
 <article class="post">
-  {{ page.content }}
+  {% include 'review.html' %}
 </article>
 {% endfor %}
 
