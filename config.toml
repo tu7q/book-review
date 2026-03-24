@@ -1,2 +1,7 @@
 [site]
 repo = "https://github.com/tu7q/book-review"
+
+[static]
+src = "static"
+dst = "static"
+

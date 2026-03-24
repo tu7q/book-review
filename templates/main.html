@@ -1,17 +1,21 @@
-<!DOCTYPE html>
+{% extends "base.html"%}
 
-<html>
+{% block title %}Index{% endblock %}
 
-<head>
-</head>
+{% block head %}
+{{ super() }}
+{% endblock %}
 
-<body>
-  {% for page in pages|sort(attribute='fm.created') %}
-  <article>
-    <a href={{ getUrl(page) }}>{{ page.fm.title }}</a>
-    {{ page.content }}
-  </article>
-  {% endfor %}
-</body>
+{% block content %}
 
-</html>
+<div class="banner">
+  <h1>Awesome Stories!</h1>
+</div>
+
+{% for page in pages|sort(attribute='fm.created') %}
+<article class="post">
+  {{page.content}}
+</article>
+{% endfor %}
+
+{% endblock %}

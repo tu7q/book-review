@@ -19,10 +19,18 @@ from mdit_py_plugins.front_matter import front_matter_plugin
 import yaml
 
 baseUrl = "/"
+staticBaseUrl = None
 
 
 def getBaseUrl():
     return baseUrl
+
+
+def getStaticBaseUrl():
+    if staticBaseUrl is None:
+        raise Exception()
+
+    return baseUrl + staticBaseUrl
 
 
 def getUrl(page):
@@ -37,6 +45,7 @@ env = Environment(loader=FileSystemLoader("templates"))
 env.globals["getBaseUrl"] = getBaseUrl
 env.globals["getUrl"] = getUrl
 env.globals["getEditUrl"] = getEditUrl
+env.globals["getStaticBaseUrl"] = getStaticBaseUrl
 
 md = MarkdownIt("commonmark", {"breaks": True, "html": True}).use(front_matter_plugin)
 
@@ -78,6 +87,8 @@ def get_pages(root):
 
 
 def build(pages_dir: str, install_dir: str):
+    global staticBaseUrl
+
     install = Path(install_dir)
     pages = get_pages(pages_dir)
     config = toml.load(Path("config.toml"))
@@ -86,7 +97,20 @@ def build(pages_dir: str, install_dir: str):
         shutil.rmtree(install.resolve())
     install.mkdir(parents=False, exist_ok=False)
 
+    if static := config["static"]:
+        static_dir = Path(static["src"])
+        static_dst = install.joinpath(static["dst"])
+
+        staticBaseUrl = static["dst"]
+        # if staticBaseUrl[-1] != "/":
+        #     staticBaseUrl += "/"
+
+        shutil.copytree(static_dir, static_dst)
+
     for page in pages:
+        if "template" not in page.fm:
+            continue
+
         template = env.get_template(page.fm["template"])
         rt = template.render(config=config, page=page, pages=pages, **page.fm)
 
@@ -110,7 +134,10 @@ class EventHandler(FileSystemEventHandler):
         self.t.join()
 
         # Rebuild the website
-        build(self.source, self.install)
+        try:
+            build(self.source, self.install)
+        except Exception as _:
+            pass
 
         # Start server.
         self.t = threading.Thread(target=self.s.serve_forever)
