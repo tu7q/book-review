@@ -7,7 +7,6 @@ from http.server import SimpleHTTPRequestHandler, HTTPServer
 import threading
 import datetime
 import toml
-import urllib
 
 from watchdog.events import FileSystemEvent, FileSystemEventHandler
 from watchdog.observers import Observer
@@ -25,14 +24,12 @@ def getUrl(page):
 
 
 def getEditUrl(repoUrl, page):
-    return urllib.parse.urljoin(
-        repoUrl, "/edit/main/pages/" + str(page.rel_path.parent)
-    )
+    return repoUrl + "/edit/main/pages/" + str(page.rel_path.parent)
 
 
 env = Environment(loader=FileSystemLoader("templates"))
 env.globals["getUrl"] = getUrl
-env.globals["getUrl"] = getUrl
+env.globals["getEditUrl"] = getEditUrl
 
 md = MarkdownIt("commonmark", {"breaks": True, "html": True}).use(front_matter_plugin)
 
@@ -78,15 +75,13 @@ def build(pages_dir: str, install_dir: str):
     pages = get_pages(pages_dir)
     config = toml.load(Path("config.toml"))
 
-    print(config["params"]["repo"])
-
     if install.exists():
         shutil.rmtree(install.resolve())
     install.mkdir(parents=False, exist_ok=False)
 
     for page in pages:
         template = env.get_template(page.fm["template"])
-        rt = template.render(page=page, pages=pages, **page.fm)
+        rt = template.render(config=config, page=page, pages=pages, **page.fm)
 
         path = install.joinpath(page.rel_path)
         path.parent.mkdir(parents=True, exist_ok=True)
