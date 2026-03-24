@@ -34,7 +34,7 @@ jobs:
       - name: Build the site
         run: |
           python3 main.py build \
-            --baseURL "${{ steps.pages.outputs.base_url }}/" 
+            --baseUrl "${{ steps.pages.outputs.base_url }}/" 
       - name: Upload artifact
         id: deployment
         uses: actions/upload-pages-artifact@v3
