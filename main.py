@@ -21,8 +21,11 @@ import yaml
 baseUrl = "/"
 
 
+def getBaseUrl():
+    return baseUrl
+
+
 def getUrl(page):
-    print(baseUrl)
     return baseUrl + "/".join(page.rel_path.parent.parts)
 
 
@@ -31,6 +34,7 @@ def getEditUrl(repoUrl, page):
 
 
 env = Environment(loader=FileSystemLoader("templates"))
+env.globals["getBaseUrl"] = getBaseUrl
 env.globals["getUrl"] = getUrl
 env.globals["getEditUrl"] = getEditUrl
 
