@@ -1,9 +1,14 @@
-<div class="tip tip-right">
-  <small>Written by {{page.fm.author}}, read by {{page.fm.reader}}.</small>
-</div>
-
-<div class="tip tip-left">
-  <a href="{{ getEditUrl(config.site.repo, page) }}">Edit</a>
-</div>
-
-{{ page.content }}
+<article class="entry">
+  <h2>{{ page.fm.title }}</h2>
+  <div class="context">
+    <p>By <strong>{{page.fm.author}}</strong>
+    </p>
+  </div>
+  <div class="content">
+    {{ page.content }}
+  </div>
+  <div class="meta">
+    <p>{{ page.fm.created.strftime('%d %b %Y') }} — <strong>{{ page.fm.reader }}</strong></p>
+    <span class="edit"><a href="{{ getEditUrl(config.site.repo, page) }}">edit</a></span>
+  </div>
+</article>

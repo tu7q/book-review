@@ -4,18 +4,18 @@
 
 {% block head %}
 {{ super() }}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% endblock %}
 
 {% block content %}
 
-<div class="banner">
+<header>
   <h1>Awesome Stories!</h1>
-</div>
+</header>
 
 {% for page in pages|sort(attribute='fm.created')|rejectattr('fm.kind', '!=', 'review') %}
-<article class="post">
-  {% include 'review.html' %}
-</article>
+{% include 'review.html' %}
 {% endfor %}
 
 {% endblock %}

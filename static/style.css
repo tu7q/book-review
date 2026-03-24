@@ -1,90 +1,88 @@
-:root {
-  --yellow: #ffc600;
-}
-
-html {
-  color: #444;
-  font-family: Cambria, Cochin, Georgia, 'Times New Roman', Times, serif;
-  font-size: 20px;
-}
-
-p {
-  line-height: 1.8;
-}
-
-img {
-  max-width: 100%;
-}
-
-a {
-  color: black;
-  text-decoration: underline wavy var(--yellow);
-}
-
-h1,
-h2 {
-  font-size: 80px;
-  font-style: italic;
-  font-weight: 100;
+body {
   margin: 0;
+  background: #ecebe7;
+  font-family: Georgia, serif;
+  color: #1f1f1f;
 }
 
-.post {
-  display: grid;
-  max-width: 1000px;
-  margin: 50px auto;
-  grid-template-columns: 3fr 12fr 5fr;
-  grid-gap: 10px 20px;
+.page {
+  max-width: 760px;
+  margin: 4rem auto;
+  background: #fff;
+  padding: 3rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
-.post>* {
-  grid-column: 2 / -2;
-}
-
-.post>figure {
-  margin: 0;
-  grid-column: 1 / -1;
-}
-
-
-figcaption {
-  font-size: 12px;
-}
-
-.post>blockquote {
-  grid-column: 1 / -1;
-  font-size: 60px;
-  margin: 0;
-  font-style: italic;
+header {
+  margin-bottom: 3rem;
   text-align: center;
 }
 
-.tip {
-  background: #EBEBEB;
-  padding: 10px;
-  grid-row: span 5;
-  align-self: start;
+header h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: normal;
 }
 
-.tip-left {
-  grid-column: 1 / span 1;
-  text-align: right;
-  border-right: 2px solid var(--yellow);
+header p {
+  margin-top: 0.5rem;
+  color: #777;
+  font-size: 0.9rem;
 }
 
-.tip-right {
-  grid-column: span 1 / -1;
-  border-left: 2px solid var(--yellow);
+.entry {
+  margin-bottom: 4rem;
 }
 
-.banner {
-  display: grid;
-  max-width: 1000px;
-  margin: 50px auto;
-  grid-template-columns: 3fr 12fr 5fr;
-  grid-gap: 10px 20px;
+.entry h2 {
+  font-weight: normal;
+  margin-bottom: 0.6rem;
 }
 
-.banner>* {
-  grid-column: 2 / -2;
+.context {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1.2rem;
+}
+
+.content {
+  border-left: 3px solid #ffd966;
+  padding-left: 1.2rem;
+}
+
+.content p {
+  margin-bottom: 1.2rem;
+}
+
+.meta {
+  margin-top: 1.5rem;
+  font-size: 0.75rem;
+  color: #999;
+  position: relative;
+}
+
+.edit {
+  position: absolute;
+  right: 0;
+  top: 0;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.entry:hover .edit {
+  opacity: 0.5;
+}
+
+.edit a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.edit a:hover {
+  text-decoration: none;
+}
+
+.author {
+  text-decoration: underline;
+  text-decoration-color: #ffd966;
 }
