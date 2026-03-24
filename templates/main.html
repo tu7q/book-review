@@ -1,6 +1,6 @@
 {% extends "base.html"%}
 
-{% block title %}Index{% endblock %}
+{% block title %}Awesome Stories!{% endblock %}
 
 {% block head %}
 {{ super() }}
@@ -14,7 +14,7 @@
 
 {% for page in pages|sort(attribute='fm.created') %}
 <article class="post">
-  {{page.content}}
+  {{ page.content }}
 </article>
 {% endfor %}
 
