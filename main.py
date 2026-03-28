@@ -5,8 +5,8 @@ import shutil
 import time
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 import threading
-import datetime
-import toml
+
+import tomllib
 
 from watchdog.events import FileSystemEvent, FileSystemEventHandler
 from watchdog.observers import Observer
@@ -16,7 +16,7 @@ from jinja2 import Environment, FileSystemLoader
 from markdown_it import MarkdownIt
 from mdit_py_plugins.front_matter import front_matter_plugin
 
-import yaml
+# import yaml
 
 baseUrl = "/"
 staticBaseUrl = None
@@ -57,11 +57,7 @@ class Page:
         self.content = md.render(content)
 
         if len(tokens) > 0 and tokens[0].type == "front_matter":
-            self.fm = yaml.load(tokens[0].content, Loader=yaml.SafeLoader)
-            if "created" in self.fm:
-                self.fm["created"] = datetime.datetime.strptime(
-                    self.fm["created"], "%d/%m/%Y"
-                )
+            self.fm = tomllib.loads(tokens[0].content)
         else:
             self.fm = {}
 
@@ -91,7 +87,9 @@ def build(pages_dir: str, install_dir: str):
 
     install = Path(install_dir)
     pages = get_pages(pages_dir)
-    config = toml.load(Path("config.toml"))
+    with open("config.toml", "rb") as f:
+
+        config = tomllib.load(f)
 
     if install.exists():
         shutil.rmtree(install.resolve())
@@ -136,7 +134,7 @@ class EventHandler(FileSystemEventHandler):
         # Rebuild the website
         try:
             build(self.source, self.install)
-        except Exception as _:
+        except Exception:
             pass
 
         # Start server.

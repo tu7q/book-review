@@ -14,7 +14,7 @@
   <h1>Awesome Stories!</h1>
 </header>
 
-{% for page in pages|sort(attribute='fm.created')|rejectattr('fm.kind', '!=', 'review') %}
+{% for page in pages|rejectattr('fm.kind', '!=', 'review')|sort(attribute='fm.created')%}
 {% include 'review.html' %}
 {% endfor %}
 
